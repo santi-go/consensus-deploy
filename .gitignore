@@ -2,3 +2,5 @@
 /consensus-api/
 /consensus17/
 password_mail.env
+.netrc
+netrc
