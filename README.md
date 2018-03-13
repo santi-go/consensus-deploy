@@ -7,7 +7,8 @@ You need docker-compose
 
 ## Deploy in Heroku
 
-Install Heroku CLI from heroku:
+
+Install Heroku CLI from herok, for Linux:
 
 ~~~
 wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
