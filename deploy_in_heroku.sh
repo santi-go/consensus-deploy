@@ -28,7 +28,7 @@ cp -r consensus/public consensus17/
 echo "\nCloning Consensus-api repository..."
 git clone https://gitlab.com/devscola/consensus-api.git
 cd consensus-api
-API=$( git log --format='%s from %cn' -1 )
+API=$( git log --format='%s from %cn;' -1 )
 cd ..
 echo "cloned $API"
 
@@ -42,10 +42,10 @@ cp -r consensus-api/initializers consensus17/
 cp -r consensus-api/system consensus17/
 cp -r consensus-api/templates consensus17/
 
-echo "\nCommitting changes to Heroku repository..."
+echo "\nCommitting to Heroku repository from Api: $API and App: $APP"
 cd consensus17
 git add .
-git commit -m "Deploy from: $API and $APP"
+git commit -m "Deploy from Api: $API and App: $APP"
 git push heroku master
 cd ..
 

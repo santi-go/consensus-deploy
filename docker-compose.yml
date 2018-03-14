@@ -1,0 +1,5 @@
+version: '2.0'
+services:
+  deploy_heroku:
+    build: .
+    command: ["sh","deploy_in_heroku.sh"]

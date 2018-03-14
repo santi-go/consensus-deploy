@@ -5,15 +5,8 @@
 Copy '~/.netrc' in project folder as 'netrc'.
 
 
-## Build application
+## Create deploy 
 
 ~~~
-docker build --rm --no-cache -t deploy_heroku .
-~~~
-
-
-## Delete build
-
-~~~
-docker rmi deploy_heroku
+docker-compose up
 ~~~
