@@ -12,7 +12,7 @@ heroku git:clone -a consensus17
 echo "\nCloning Consensus repository..."
 git clone https://gitlab.com/devscola/consensus.git
 cd consensus
-APP=$( git log --format='%s from %cn' -1 )
+APP=$( git log --format='%s (from %cn)' -1 )
 cd ..
 echo "cloned $APP"
 
@@ -28,7 +28,7 @@ cp -r consensus/public consensus17/
 echo "\nCloning Consensus-api repository..."
 git clone https://gitlab.com/devscola/consensus-api.git
 cd consensus-api
-API=$( git log --format='%s from %cn;' -1 )
+API=$( git log --format='%s (from %cn);' -1 )
 cd ..
 echo "cloned $API"
 
