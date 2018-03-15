@@ -3,6 +3,9 @@ image: tmaier/docker-compose:latest
 services:
   - docker:dind
 
+before_script:
+  - apt-get install git
+
 stages:
   - test
   - build
