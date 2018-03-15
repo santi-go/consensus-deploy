@@ -1,4 +1,10 @@
-image: ruby:latest
+image: tmaier/docker-compose:latest
+
+services:
+  - docker:dind
+
+before_script:
+  - apk update && apk add git
 
 stages:
   - test
@@ -6,9 +12,6 @@ stages:
   - deploy
 
 api_test:
-  image: tmaier/docker-compose:latest
-  services:
-    - docker:dind
   stage: test
   before_script:
     - git clone https://gitlab.com/devscola/consensus-api.git
@@ -21,12 +24,11 @@ api_test:
     - cd ..
   artifacts:
     paths:
-    - consensus-api/
+      - consensus-api/
 
 app_test:
   stage: test
   before_script:
-    - apt-get install git
     - git clone https://gitlab.com/devscola/consensus.git
     - cd consensus
   script:
@@ -38,7 +40,7 @@ app_test:
     - cd ..
   artifacts:
     paths:
-    - consensus/public/
+      - consensus/public/
 
 build:
   stage: build
