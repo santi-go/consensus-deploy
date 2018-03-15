@@ -42,7 +42,11 @@ app_test:
       - consensus/public/
 
 build:
+  image: ruby:latest
   stage: build
+  before_script:
+    - apt-get update -qy
+    - gem install dpl
   script:
     - mkdir consensus17
     - cp -r consensus/public consensus17/
@@ -58,4 +62,5 @@ build:
     - echo "-----------------------------into-consensus17--------------------------"
     - cd consensus17
     - ls -la
+    - dpl --provider=heroku --app=$HEROKU_APP-NAME --api-key=$HEROKU_PRODUCTION_API_KEY --strategy=git
     - cd ..
