@@ -45,9 +45,6 @@ build:
   image: ruby:latest
   stage: build
   before_script:
-    - apt-get update -qy
-    - gem install dpl
-    - gem install heroku
     - echo '        machine api.heroku.com
         machine api.heroku.com
           login $HEROKU_EMAIL
@@ -57,6 +54,9 @@ build:
           password $HEROKU_PRODUCTION_API_KEY
           ' > ~/.netrc
     - chmod 600 ~/.netrc
+    - apt-get update -qy
+    - gem install dpl
+    - gem install heroku
   script:
     - heroku git:clone -a $HEROKU_CONSENSUS
     - cp -r consensus/public consensus17/
