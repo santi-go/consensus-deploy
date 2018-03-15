@@ -20,6 +20,9 @@ api_test:
     - docker-compose -f docker-compose.ci.yml down
   after_script:
     - cd ..
+  artifacts:
+    paths:
+      - consensus-api/
 
 app_test:
   stage: test
@@ -34,6 +37,9 @@ app_test:
     - docker-compose -f docker-compose.yml down
   after_script:
     - cd ..
+  artifacts:
+    paths:
+      - consensus/public/
 
 build:
   stage: build
