@@ -12,7 +12,7 @@ api_test:
   stage: test
   before_script:
     - apk update && apk add git
-    - git clone https://gitlab.com/devscola/consensus-api.git
+    - git clone --single-branch -b testing https://gitlab.com/devscola/consensus-api.git
     - cd consensus-api
   script:
     - docker-compose -f docker-compose.ci.yml up --build -d
@@ -28,7 +28,7 @@ app_test:
   stage: test
   before_script:
     - apk update && apk add git
-    - git clone https://gitlab.com/devscola/consensus.git
+    - git clone --single-branch -b testing https://gitlab.com/devscola/consensus.git
     - cd consensus
   script:
     - docker-compose -f docker-compose.yml up --build -d
@@ -45,15 +45,13 @@ build:
   image: ruby:latest
   stage: build
   before_script:
-    - |
-        cat >~/.netrc <<EOF
-        machine api.heroku.com
+    - echo '        machine api.heroku.com
           login $HEROKU_EMAIL
           password $HEROKU_PRODUCTION_API_KEY
         machine git.heroku.com
           login $HEROKU_EMAIL
           password $HEROKU_PRODUCTION_API_KEY
-        EOF
+          ' > ~/.netrc
     - chmod 600 ~/.netrc
     - apt-get update -qy
     - gem install dpl
@@ -70,8 +68,6 @@ build:
     - cp -r consensus-api/system consensus17/
     - cp -r consensus-api/templates consensus17/
     - cp -r consensus-api/ testing/
-    - echo "-----------------------------into-consensus17--------------------------"
     - cd consensus17
-    - ls -la
-    - dpl --provider=heroku --app=$HEROKU_CONSENSUS --api-key=$HEROKU_PRODUCTION_API_KEY --strategy=git
+##    - dpl --provider=heroku --app=$HEROKU_CONSENSUS --api-key=$HEROKU_PRODUCTION_API_KEY --strategy=git
     - cd ..
