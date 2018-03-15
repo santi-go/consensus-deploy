@@ -20,9 +20,6 @@ api_test:
     - docker-compose -f docker-compose.ci.yml down
   after_script:
     - cd ..
-  artifacts:
-    paths:
-      - consensus-api/
 
 app_test:
   stage: test
@@ -37,19 +34,22 @@ app_test:
     - docker-compose -f docker-compose.yml down
   after_script:
     - cd ..
-  artifacts:
-    paths:
-      - consensus/public/
 
 build:
   stage: build
   script:
-    - mkdir testing
-    - cp -r consensus/public/ testing/
+    - mkdir consensus17
+    - cp -r consensus/public consensus17/
+    - cp -r consensus-api/app.rb consensus17/
+    - cp -r consensus-api/config.ru consensus17/
+    - cp -r consensus-api/Gemfile consensus17/
+    - cp -r consensus-api/Gemfile.lock consensus17/
+    - cp -r consensus-api/images consensus17/
+    - cp -r consensus-api/initializers consensus17/
+    - cp -r consensus-api/system consensus17/
+    - cp -r consensus-api/templates consensus17/
     - cp -r consensus-api/ testing/
-    - echo "--------------------------------root---------------------------"
-    - ls -la
-    - echo "------------------------------testing--------------------------"
-    - cd testing
+    - echo "-----------------------------into-consensus17--------------------------"
+    - cd consensus17
     - ls -la
     - cd ..
