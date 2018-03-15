@@ -45,10 +45,20 @@ build:
   image: ruby:latest
   stage: build
   before_script:
+    - |
+        cat >~/.netrc <<EOF
+        machine api.heroku.com
+          login $HEROKU_EMAIL
+          password $HEROKU_PRODUCTION_API_KEY
+        machine git.heroku.com
+          login $HEROKU_EMAIL
+          password $HEROKU_PRODUCTION_API_KEY
+        EOF
+    - chmod 600 ~/.netrc
     - apt-get update -qy
     - gem install dpl
     - gem install heroku
-    - heroku git:clone -a consensus17
+    - heroku git:clone -a $HEROKU_CONSENSUS
   script:
     - cp -r consensus/public consensus17/
     - cp -r consensus-api/app.rb consensus17/
