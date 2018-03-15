@@ -3,11 +3,6 @@ image: tmaier/docker-compose:latest
 services:
   - docker:dind
 
-cache:
-  paths:
-    - consensus/public/
-    - consensus-api/
-
 stages:
   - test
   - build
@@ -56,4 +51,3 @@ build:
     - cd testing
     - ls -la
     - cd ..
-    
