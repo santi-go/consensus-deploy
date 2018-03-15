@@ -1,0 +1,59 @@
+image: tmaier/docker-compose:latest
+
+services:
+  - docker:dind
+
+cache:
+  paths:
+    - consensus/public/
+    - consensus-api/
+
+stages:
+  - test
+  - build
+  - deploy
+
+api_test:
+  stage: test
+  before_script:
+    - git clone https://gitlab.com/devscola/consensus-api.git
+    - cd consensus-api
+  script:
+    - docker-compose -f docker-compose.ci.yml up --build -d
+    - docker-compose -f docker-compose.ci.yml run api bundle exec rake test
+    - docker-compose -f docker-compose.ci.yml down
+  after_script:
+    - cd ..
+  artifacts:
+    paths:
+      - consensus-api/
+
+app_test:
+  stage: test
+  before_script:
+    - git clone https://gitlab.com/devscola/consensus.git
+    - cd consensus
+  script:
+    - docker-compose -f docker-compose.yml up --build -d
+    - docker-compose -f docker-compose.yml run consensus npm run build
+    - docker-compose -f docker-compose.yml run consensus npm run test-all
+    - docker-compose -f docker-compose.yml down
+  after_script:
+    - cd ..
+  artifacts:
+    paths:
+      - consensus/public/
+
+build:
+  stage: build
+  script:
+    - mkdir testing
+    - cp -r consensus/public/ testing/
+    - cp -r consensus-api/ testing/
+    - echo "--------------------------------root---------------------------"
+    - ls -la
+    - echo "------------------------------testing--------------------------"
+    - cd testing
+    - ls -la
+    - cd ..
+    
